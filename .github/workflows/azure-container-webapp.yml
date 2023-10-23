@@ -1,0 +1,37 @@
+name: Python Docker Azure CI/CD
+
+on:
+  push:
+    branches:
+      - main  # Change this to your main branch name
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Login to Docker Hub
+      run: |
+        docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+
+
+    - name: Build and Push Docker Image
+      run: |
+        docker build -t tamilarasan002/hdp:latest .
+        docker push tamilarasan002/hdp:latest
+      env:
+        DOCKER_BUILDKIT: 1
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Deploy to Azure
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        package: .
