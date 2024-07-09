@@ -19,15 +19,16 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.TAMILARASAN }}
-          password: ${{ secrets.PASSWORD }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: true
-          tags: ${{ secrets.TAMILARASAN }}/heartdiseasepredict:latest
+          login-server: ${{ secrets.ACR_REGISTRY }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+          
+     - name: Build and push Docker images
+        run: |
+          cd src/adservice
+          docker build -t ${{ secrets.ACR_REGISTRY }}/heartdiseaseprediction:latest .
+          docker push ${{ secrets.ACR_REGISTRY }}/heartdiseaseprediction:latest
+          
 
       - name: List Docker images
         run: docker images
