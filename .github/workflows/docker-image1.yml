@@ -25,9 +25,7 @@ jobs:
           
       - name: Build and push Docker images
         run: |
-          docker build -t ${{ secrets.ACR_REGISTRY }}/heartdiseaseprediction:latest .
-          docker push ${{ secrets.ACR_REGISTRY }}/heartdiseaseprediction:latest
+          docker build -t ${{secrets.ACR_REGISTRY}}/heartdiseaseprediction:latest .
+          docker push ${{secrets.ACR_REGISTRY}}/heartdiseaseprediction:latest
           
 
-      - name: List Docker images
-        run: docker images
