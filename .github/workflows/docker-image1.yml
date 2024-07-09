@@ -26,7 +26,6 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
-          context: ./app
           push: true
           tags: tamilarasand002/heartdiseasepredict:latest
           run: docker push tamilarasand002/heartdiseasepredict:latest
